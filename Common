@@ -1,0 +1,40 @@
+#Install Python Package in Dev
+
+## First download source file from PyPi and completely unzip.  Then upload folder.
+
+### Change to the uploaded file folder
+cdsw@ck1ak60cldy22vez:~$ cd 
+
+analysis.py          .conda/              .gitignore           .oracle_jre_usage/   README.md
+.bash_history        .config/             .ipython/            .pip/                scikit-learn-0.19.1/
+.cache/              data/                .local/              PythonEDA.py         seaborn-data/
+
+cdsw@ck1ak60cldy22vez:~$ cd scikit-learn-0.19.1/
+
+### Run install progam like theone below.  (ls is use ful confirm the name of the setup file)
+cdsw@ck1ak60cldy22vez:~/scikit-learn-0.19.1$ python3 setup.py install
+
+# Dowload file
+if not os.path.isfile("./data/vehicles"):
+  import os
+  import zipfile
+  import requests
+
+  pw = 'myN3wpassword!'
+  un = os.environ['username']
+
+  def download_data(url, dest_file):
+    sess = requests.session()
+    proxies = {"http": "http://{}:'{}'@10.47.196.156:80".format(un, pw),
+               "https": "http://{}:'{}'@10.47.196.156:80".format(un, pw)}
+
+    sess.proxies = proxies
+
+    response = sess.get(url, timeout=None)
+
+    with open(dest_file, 'wb') as f:
+      f.write(response.content)
+    z = zipfile.ZipFile(dest_file)
+    z.extractall('./data/')
+
+    download_data('http://bit.ly/ddl-cars', './data/vehicles.zip')
